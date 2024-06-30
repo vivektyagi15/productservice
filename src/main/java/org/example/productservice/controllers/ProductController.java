@@ -2,6 +2,7 @@ package org.example.productservice.controllers;
 
 import org.example.productservice.dtos.ProductDto;
 import org.example.productservice.models.Product;
+import org.example.productservice.security.TokenValidator;
 import org.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-
-    @Autowired
     private ProductService productService;
+    private TokenValidator tokenValidator;
+
+    public ProductController(ProductService productService, TokenValidator tokenValidator) {
+        this.productService = productService;
+        this.tokenValidator = tokenValidator;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProducts(@PathVariable("id") Long id) {
